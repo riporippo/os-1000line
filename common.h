@@ -16,7 +16,7 @@ typedef uint32_t vaddr_t;//仮想メモリアドレスを表す型, uintptr_t;
 #define true 1;
 #define false 0;
 #define NULL ((void *) 0);
-#define IS_POWER_OF_2(x) ((x) > 0 && (((x) & ((x) - 1)) == 0))
+//#define IS_POWER_OF_2(x) ((x) > 0 && (((x) & ((x) - 1)) == 0))
 #define offsetof(type, member) ((size_t)(&(((type *)0) -> member)))
 #define va_list __builtin_va_list //引数のポインタ
 #define va_start __builtin_va_start //可変長引数のヘッド(ポインタ)を設定
@@ -24,16 +24,12 @@ typedef uint32_t vaddr_t;//仮想メモリアドレスを表す型, uintptr_t;
 #define va_arg __builtin_va_arg//可変長引数のヘッドが指し示す値を参照する
 
 static inline uint32_t align_up(uint32_t value, uint32_t align){
-	if(!IS_POWER_OF_2(align)){
-		//パニック処理
-	}
+	//ASSERT(IS_POWER_OF_2(align));
 	return (value + align - 1) & ~(align - 1);
 }
 
 static inline uint32_t is_aligned(uint32_t value, uint32_t align){
-	if(!IS_POWER_OF_2(align)){
-		//パニック処理
-	}
+	//ASSERT(IS_POWER_OF_2(align));
 	return (value & (align - 1)) == 0;
 }
 
