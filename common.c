@@ -1,14 +1,55 @@
 #include "common.h"
 
+/* typedef: 元々ある型を違う名前で使用するためのもの */
 typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
 typedef uint32_t size_t;
 
+void *memcpy(void *dst, const void *src, size_t n){
+	uint8_t *d = (uint8_t *) dst;
+	const uint8_t *s = (const uint8_t *) src;
+	while (n--)
+	/*
+		*d = *s;
+		d = d + 1;
+		s = s + 1;
+	*/
+		*d++ = *s++;
+	return dst;
+}
+
 void *memset(void *buf, char c, size_t n){
 	uint8_t *p = (uint8_t *) buf;
 	while (n--)
+	/*
+		*p = c;
+		p = p + 1;
+	*/
 		*p++ = c;
 	return buf;
+}
+
+char *strcpy_s(char *dst, size_t n, const char *src){//でかすぎて 溢れちゃうなら 切りたもう
+	char *d = dst;
+	size_t ava = n;
+	while(*src && ava > 1){
+		*d++ = *src++;
+		ava--;
+	}
+	*d = '\0';
+	return dst;
+}
+
+int strcmp(const char *s1, const char *s2){
+	while(*s1 && *s2){
+		if (*s1 != *s2)
+			break;
+		s1++;
+		s2++;
+	}
+	/* 文字コード同士で引き算することで，辞書順かどうかを判定できるという寸法(0なら完全一致) */
+	/* !strcmp(s1,s2) -> True */
+	return *(unsigned char *)s1 - *(unsigned char *)s2;
 }
 
 void putchar(char ch);
